@@ -1,0 +1,49 @@
+return {
+    active = true,  
+    on = {
+        devices = {
+            'Korytarz - Drzwi główne'},
+            --'GieBek Zigbee - Cube'},
+    },
+
+	execute = function(dz, DRZWI)
+	    local Volume = dz.devices('Xiaomi Gateway Volume')
+	    local RGB = dz.devices('Xiaomi RGB Gateway')
+        local jasnosc = { --[   'timeSlot'   ]  = dimValue
+                            ['at 00:00-08:00']  = 50,
+                            ['at 08:01-09:59']  = 80,
+                            ['at 10:00-21:00']  = 99,
+                            ['at 21:01-23:59']  = 50,
+                         }
+        local glosnosc = {--[   'timeSlot'   ]  = setVolume
+                            ['at 00:00-08:59']  = 1,
+                            ['at 09:00-11:59']  = 3,
+                            ['at 12:00-16:59']  = 1,
+                            ['at 17:00-19:59']  = 3,
+                            ['at 20:00-23:59']  = 2,
+                        } 
+                          
+    if DRZWI.state == 'Open'  then
+        --RGB.cancelQueuedCommands()
+        --Volume.cancelQueuedCommands()
+        dz.log('Domoticz Drzwi główne otwarte')
+        dz.notify('Domoticz',
+                  'Drzwi główne otwarte ',dz.PRIORITY_HIGH)
+            for timeSlot, dimValue in pairs (jasnosc) do
+                if  dz.time.matchesRule(timeSlot) then
+                    RGB.dimTo(dimValue)
+            for timeSlot, setVolume in pairs (glosnosc) do
+                if  dz.time.matchesRule(timeSlot) then          
+	                Volume.dimTo(setVolume)
+	                dz.devices('Xiaomi Gateway Doorbell').switchSelector(20)
+                end
+	        end
+                end
+            end
+        else
+	         RGB.dimTo(0)
+	         RGB.dimTo(0).afterSec(2)
+    end
+end
+}
+	   
