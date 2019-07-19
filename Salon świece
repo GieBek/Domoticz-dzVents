@@ -1,0 +1,54 @@
+return {
+	on = {
+		devices = {
+			'Salon - Sensor'
+		}
+	},
+	execute = function(dz, PIR)
+	    local SwieceOn = dz.devices('Boardlink - Świece On')
+	    local SwieceOff = dz.devices('Boardlink - Świece Off')
+	    local SwieceFade = dz.devices('Boardlink - Świece Fade')
+	    local SwieceRozowy = dz.devices('Boardlink - Świece Różowy')
+	    local SwieceBialy = dz.devices('Boardlink - Świece Biały')
+	    local SwieceZolty = dz.devices('Boardlink - Świece Żółty')
+	    local SwieceFioletowy = dz.devices('Boardlink - Świece Fioletowy')
+	        
+            if PIR.state == 'On' then
+                SwieceOff.cancelQueuedCommands()
+                dz.log('Domoticz: Włączyłem świece!!!------------------------------------------------------------------------------')
+                    if dz.time.matchesRule('at 18:00-18:59') then
+                        SwieceOn.switchOn()
+                        SwieceRozowy.switchOn().afterSec(2)
+                        dz.log('Domoticz: Włączyłem świece 18:00-18:59!!!------------------------------------------------------------------------------')
+                        end
+                    if dz.time.matchesRule('at 19:00-19:59') then
+                        SwieceOn.switchOn()
+                        SwieceZolty.switchOn().afterSec(2)
+                        dz.log('Domoticz: Włączyłem świece 19:00-19:59!!!------------------------------------------------------------------------------')
+                        end
+                    if dz.time.matchesRule('at 20:00-20:59') then
+                        SwieceOn.switchOn()
+                        SwieceBialy.switchOn().afterSec(2)
+                        dz.log('Domoticz: Włączyłem świece 20:00-20:59!!!------------------------------------------------------------------------------')
+                        end
+                    if dz.time.matchesRule('at 21:00-21:59') then
+                        SwieceOn.switchOn()
+                        SwieceFioletowy.switchOn().afterSec(2)
+                        dz.log('Domoticz: Włączyłem świece 21:00-21:59!!!------------------------------------------------------------------------------')
+                        end
+                    if dz.time.matchesRule('at 22:00-23:59') then
+                        SwieceOn.switchOn()
+                        SwieceRozowy.switchOn().afterSec(2)
+                        dz.log('Domoticz: Włączyłem świece 22:00-23:59!!!------------------------------------------------------------------------------')
+                        end
+                    --if dz.time.matchesRule('at 00:00-05:59') then
+                        --SwieceOn.switchOn()
+                        --SwieceFade.switchOn().afterSec(2)
+                        --dz.log('Domoticz: Włączyłem świece 00:00-05:59!!!------------------------------------------------------------------------------')
+                    --end
+
+                else
+                    SwieceOff.switchOn().afterSec(60)
+                end
+            end
+}
