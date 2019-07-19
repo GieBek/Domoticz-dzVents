@@ -1,0 +1,14 @@
+return {
+	active = true,
+	on = {
+		devices = { 
+			'Dzwonek do drzwi'
+		},
+	},
+	execute = function(domoticz, switch)
+		if (switch.state == 'On')  then
+            domoticz.log(' Domoticz: Dzwonek do drzwi')
+            domoticz.notify('Domoticz','Dzwonek do drzwi',domoticz.PRIORITY_HIGH)
+    	end
+    end	
+}
