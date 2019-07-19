@@ -1,0 +1,71 @@
+return {
+    active = true,  
+    on = {
+        devices = {
+            'GieBek Zigbee - Przełącznik 2x'
+        }
+    },
+    execute = function(domoticz, device)
+        if device.state == 'Switch 1' then --and  domoticz.time.hour >= 18 and domoticz.time.hour <= 20 then
+                domoticz.devices('Sypialnia - Obraz RGBW').dimTo(10)
+                os.execute('curl "http://192.168.1.100:8080/json.htm?type=command&param=setcolbrightnessvalue&idx=18&hue=180&brightness=10&iswhite=true"')
+        end             
+        if device.state == 'Switch 2' then --and domoticz.time.hour >= 18 and domoticz.time.hour <= 20 then
+                --domoticz.devices('Fibaro RGBW').dimTo(10)
+                domoticz.devices('Sypialnia - Obraz RGBW').switchSelector(30)
+                os.execute('curl "http://192.168.1.100:8080/json.htm?type=command&param=applyzwavenodeconfig&idx=18&valuelist=72_OQ%3D%3D"')
+        end
+--        if device.state == 'Switch 2'then --and domoticz.time.hour >= 18 and domoticz.time.hour <= 20 then
+--                --domoticz.devices('Fibaro RGBW').dimTo(10)
+--                domoticz.devices('Fibaro RGBW').switchSelector(30)
+--                os.execute('curl "http://192.168.1.100:8080/json.htm?type=command&param=applyzwavenodeconfig&idx=18&valuelist=72_OQ%3D%3D"')
+--        end
+--        if device.state == 'Switch 2'then --and domoticz.time.hour >= 18 and domoticz.time.hour <= 20 then
+--                --domoticz.devices('Fibaro RGBW').dimTo(10)
+--                domoticz.devices('Fibaro RGBW').switchSelector(30)
+--                os.execute('curl "http://192.168.1.100:8080/json.htm?type=command&param=applyzwavenodeconfig&idx=18&valuelist=72_OQ%3D%3D"')
+--        end
+--        if device.state == 'Switch 2'then --and domoticz.time.hour >= 18 and domoticz.time.hour <= 20 then
+--                --domoticz.devices('Fibaro RGBW').dimTo(10)
+--                domoticz.devices('Fibaro RGBW').switchSelector(30)
+--                os.execute('curl "http://192.168.1.100:8080/json.htm?type=command&param=applyzwavenodeconfig&idx=18&valuelist=72_OQ%3D%3D"')
+--        end
+--        if device.state == 'Switch 2'then --and domoticz.time.hour >= 18 and domoticz.time.hour <= 20 then
+--                --domoticz.devices('Fibaro RGBW').dimTo(10)
+--                domoticz.devices('Fibaro RGBW').switchSelector(30)
+--                os.execute('curl "http://192.168.1.100:8080/json.htm?type=command&param=applyzwavenodeconfig&idx=18&valuelist=72_OQ%3D%3D"')
+--        end
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+              
+--// 6 = Fireplace
+--http://192.168.1.100:8080/json.htm?type=command&param=applyzwavenodeconfig&idx=18&valuelist=72_Ng%3D%3D
+--// 7 = Storm
+--http://192.168.1.100:8080/json.htm?type=command&param=applyzwavenodeconfig&idx=18&valuelist=72_Nw%3D%3D
+--// 8 = Rainbow
+--http://192.168.1.100:8080/json.htm?type=command&param=applyzwavenodeconfig&idx=18&valuelist=72_OA%3D%3D
+--// 9 = Aurora
+--http://192.168.1.100:8080/json.htm?type=command&param=applyzwavenodeconfig&idx=18&valuelist=72_OQ%3D%3D
+--// 10 = LPD
+--http://192.168.1.100:8080/json.htm?type=command&param=applyzwavenodeconfig&idx=18&valuelist=72_MTA%3D  
+              
+                     
+        if device.state == 'Both_Click' then
+                domoticz.devices('Sypialnia - Obraz RGBW').switchOff()--afterSec(1)
+                --domoticz.devices('Xiaomi Gateway Doorbell').switchSelector(20)
+                --domoticz.devices('Xiaomi RGB Gateway').dimTo(60)
+                --domoticz.log('Domoticz Drzwi główne otwarte')
+                --domoticz.notify('Domoticz',
+                         --'Drzwi główne otwarte ',domoticz.PRIORITY_LOW)
+                     
+
+        end
+    end
+}
