@@ -1,0 +1,22 @@
+return {
+	on = {
+		devices = {
+			'Łazienka - Sensor'
+		}
+	},
+	
+	
+	execute = function(dz, device)
+        local Lustro = dz.devices('Łazienka - Światło lustro')
+
+	    if (device.state == 'On')  and dz.time.matchesRule('at 07:00-24:00') then --(domoticz.time.hour >= 8) and (domoticz.time.hour <= 24) then
+	        Lustro.cancelQueuedCommands()
+	        Lustro.switchOn().checkFirst()
+            dz.log('Domoticz: Włączyłem lutro w łazience!!!')
+            
+	    else--if(device.state == 'Off') then
+	        Lustro.switchOff().afterSec(30)
+	            
+	    end
+	end
+}
