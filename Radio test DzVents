@@ -1,0 +1,51 @@
+return {
+	on = {
+		devices = {'Kuchnia - Sensor'}, -- Change out PIR
+	},
+   
+    execute = function(dz, PIR)
+        local Radio = dz.devices('Kuchnia LMS') -- Change out light
+        local dimTimeTable  = { --  [   'timeSlot'   ]  = volume
+                                    --['at 00:00-08:00']  = 13,
+                                    ['at 08:01-09:59']  = 19,
+                                    ['at 10:00-20:59']  = 23,
+                                    ['at 21:00-23:59']  = 16,
+                              }
+                              
+    if PIR.state == 'On' then 
+        Radio.cancelQueuedCommands()
+        for timeSlot, volume in pairs (dimTimeTable) do
+            if  dz.time.matchesRule(timeSlot) then 
+                if  (Radio.state == 'Off' ) then
+                    dz.log('AUTOPLAY RADIO', dz.LOG_INFO)
+                    Radio.setVolume(volume-12)
+                    dz.openURL('http://192.168.1.190:9000/index.html?p0=playlist&p1=play&p2=http://opml.radiotime.com/Tune.ashx?id=s76118&formats=aac,ogg,mp3,wmpro,wma,wmvoice&partnerId=16&serial=97a5d42f23edef124f3e53250521eec8').afterSec(1)
+                    --Radio.play().afterSec(1)
+                    Radio.setVolume(volume-10).afterSec(2)
+                    Radio.setVolume(volume-8).afterSec(4)
+                    Radio.setVolume(volume-6).afterSec(6)
+                    Radio.setVolume(volume-4).afterSec(8)
+                    Radio.setVolume(volume-2).afterSec(10)
+                    Radio.setVolume(volume-1).afterSec(11)
+                    Radio.setVolume(volume).afterSec(12)
+                        if (Radio.state == 'Disconnected') then
+                            if Radio.state == 'Play' then
+                                --nic :)
+                            else
+                                dz.openURL('http://192.168.1.190:9000/index.html?p0=playlist&p1=play&p2=http://opml.radiotime.com/Tune.ashx?id=s76118&formats=aac,ogg,mp3,wmpro,wma,wmvoice&partnerId=16&serial=97a5d42f23edef124f3e53250521eec8')
+                                dz.log('AUTOPLAY RADIO STRONA', dz.LOG_INFO)
+                                domoticz.notify('Domoticz','AUTOPLAY RADIO STRONA', domoticz.PRIORITY_LOW)
+                            end
+                        end
+                    dz.log('Radio: ' ..Radio.name .. ' zaczyna grać (Głośność: ' .. volume .. ')' )
+                    return false
+                end
+            end
+        end
+    else
+        dz.log('AUTOSTOP RADIO po 3 minuach bezruchu.', dz.LOG_INFO)
+        Radio.switchOff().afterMin(3)
+    end
+end
+}
+
